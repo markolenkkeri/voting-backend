@@ -7,6 +7,10 @@ import grails.rest.*
 class Candidate {
     Integer id
     String name
-    String affiliation
+    String party
+    String profession
+    String residency
+    Integer age
+    String education
     String picture
 }

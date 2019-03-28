@@ -10,3 +10,4 @@ out/
 .project
 .settings
 .classpath
+secret/voting_key.der

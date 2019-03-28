@@ -1,0 +1,7 @@
+import voting.backend.grails3.Candidate
+
+model {
+	Candidate candidate
+}
+
+json g.render(candidate, [resolveTemplate: false])

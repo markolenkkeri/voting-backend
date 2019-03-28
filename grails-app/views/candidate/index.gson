@@ -1,0 +1,8 @@
+import voting.backend.grails3.Candidate
+
+model {
+	Iterable<Candidate> candidateList
+}
+
+json tmpl.listcandidate(candidateList ?: [])
+
