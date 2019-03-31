@@ -37,13 +37,6 @@ class TupasAuthenticationToken extends AbstractAuthenticationToken{
         B02K_MAC = b02K_MAC
     }
 
-    TupasAuthenticationToken(Object principal, Object credentials) {
-        super(null)
-        this.principal = principal;
-        this.credentials = credentials;
-        setAuthenticated(false);
-    }
-
     @Override
     Object getCredentials() {
         return null

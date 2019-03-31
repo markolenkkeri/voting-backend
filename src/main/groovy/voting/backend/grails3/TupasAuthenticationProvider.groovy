@@ -16,10 +16,12 @@ class TupasAuthenticationProvider implements AuthenticationProvider {
     @Override
     Authentication authenticate(Authentication authentication) throws AuthenticationException {
         TupasAuthenticationToken authToken = authentication as TupasAuthenticationToken
-        String verificationString = "0002&${authToken.B02K_TIMESTMP}&${authToken.B02K_IDNBR}&${authToken.B02K_STAMP}&" +
-                "${authToken.B02K_CUSTNAME}&${authToken.B02K_KEYVERS}&${authToken.B02K_ALG}&${authToken.B02K_CUSTID}&" +
-                "${authToken.B02K_CUSTTYPE}&$tupasKey&"
-        String verificationMac = DigestUtils.sha256Hex(verificationString).toUpperCase()
+        String verificationMac = TupasUtil.calculateSha256(
+                ['0002', authToken.B02K_TIMESTMP, authToken.B02K_IDNBR, authToken.B02K_STAMP,
+                 authToken.B02K_CUSTNAME, authToken.B02K_KEYVERS, authToken.B02K_ALG,
+                 authToken.B02K_CUSTID, authToken.B02K_CUSTTYPE, tupasKey]
+        )
+
         authToken.authenticated = verificationMac == authToken.B02K_MAC
         return authToken
     }

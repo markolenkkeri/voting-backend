@@ -7,7 +7,8 @@ import groovy.util.logging.Slf4j
 @Slf4j
 class VotingController {
 	static responseFormats = ['json']
-	def springSecurityService
+
+    def votingService
 
     @Secured('ROLE_VOTER')
     def vote(VoteCommand cmd) {
@@ -18,16 +19,6 @@ class VotingController {
             return
         }
 
-        def user = springSecurityService.principal
-        if(Vote.findAllByVoterSsn(user.password))
-        {
-            def returnValues = ["success":false, message:"This voter has already voted"]
-            render returnValues as JSON
-            return
-        }
-        Vote vote = [candidate:Candidate.read(cmd.candidateId), voterSsn:user.password]
-        vote.save([flush:true])
-        def returnValues = ["success":true, message:"Vote accepted", vote:vote]
-        render returnValues as JSON
+        render votingService.vote(cmd) as JSON
     }
 }

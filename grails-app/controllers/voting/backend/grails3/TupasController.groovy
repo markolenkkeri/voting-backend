@@ -32,7 +32,7 @@ class TupasController {
 
     private static String calculateMac(String stamp, String tupasKey)
     {
-        def content = "701&0002&999&FI&$stamp&12&http://localhost/tupasreturn&http://localhost/tupascancel&http://localhost/tupasreject&0001&03&$tupasKey&"
-        return DigestUtils.sha256Hex(content).toUpperCase()
+        def content = ['701', '0002', '999', 'FI', stamp, '12', 'http://localhost/tupasreturn', 'http://localhost/tupascancel', 'http://localhost/tupasreject', '0001', '03', tupasKey]
+        return TupasUtil.calculateSha256(content)
     }
 }

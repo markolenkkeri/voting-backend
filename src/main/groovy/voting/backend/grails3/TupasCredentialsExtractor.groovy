@@ -36,7 +36,7 @@ class TupasCredentialsExtractor {
             new TupasAuthenticationToken(ROLES, B02K_VERS, B02K_TIMESTMP, B02K_IDNBR, B02K_STAMP, B02K_CUSTNAME, B02K_KEYVERS,
             B02K_ALG, B02K_CUSTID, B02K_CUSTTYPE, B02K_USERID, B02K_USERNAME, B02K_MAC)
         } else {
-            log.debug "No JSON body sent in the request"
+            log.error "No JSON body sent in the request"
             return null
         }
     }
@@ -46,7 +46,8 @@ class TupasCredentialsExtractor {
             String body = CharStreams.toString(httpServletRequest.reader)
             JsonSlurper slurper = new JsonSlurper()
             slurper.parseText(body)
-        } catch (ignored) {
+        } catch (ex) {
+            log.error("Failed to parse credentials from JSON body", ex)
             [:]
         }
     }

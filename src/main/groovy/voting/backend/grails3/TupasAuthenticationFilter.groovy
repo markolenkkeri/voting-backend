@@ -55,49 +55,46 @@ class TupasAuthenticationFilter extends GenericFilterBean {
         logger.info "Actual URI is ${actualUri}; endpoint URL is ${endpointUrl}"
         //Only apply filter to the configured URL
         if (actualUri == endpointUrl) {
-            log.info "Applying authentication filter to this request"
+            log.debug "Applying authentication filter to this request"
 
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication()
             Authentication authenticationResult
-            log.info "authentication ${authentication.dump()}"
+            
             TupasAuthenticationToken authenticationRequest = tupasCredentialsExtractor.extractCredentials(httpServletRequest)
-            log.info "authenticationRequest ${authenticationRequest.dump()}"
-            //TODO: siisti
+
             boolean authenticationRequestIsCorrect = (authenticationRequest?.B02K_MAC && authenticationRequest?.B02K_IDNBR)
 
             if(authenticationRequestIsCorrect){
                 authenticationRequest.details = authenticationDetailsSource.buildDetails(httpServletRequest)
 
                 try {
-                    log.info "Trying to authenticate the request"
+                    log.debug "Trying to authenticate the request"
                     authenticationResult = authenticationManager.authenticate(authenticationRequest)
 
                     if (authenticationResult.authenticated) {
-                        log.info "Request authenticated. Storing the authentication result in the security context"
-                        log.info "Authentication result: ${authenticationResult}"
+                        log.debug "Request authenticated. Storing the authentication result in the security context"
                         User user = new User(authenticationRequest.B02K_CUSTNAME, authenticationRequest.B02K_CUSTID, authenticationRequest.authorities)
                         AccessToken accessToken = tokenGenerator.generateAccessToken(user)
-                        log.info "Generated token: ${accessToken}"
 
                         tokenStorageService.storeToken(accessToken.accessToken, user)
                         authenticationEventPublisher.publishTokenCreation(accessToken)
                         authenticationSuccessHandler.onAuthenticationSuccess(httpServletRequest, httpServletResponse, accessToken)
                         SecurityContextHolder.context.setAuthentication(accessToken)
                     } else {
-                        log.info "Not authenticated. Rest authentication token not generated."
+                        log.debug "Not authenticated. Rest authentication token not generated."
                     }
                 } catch (AuthenticationException ae) {
-                    log.info "Authentication failed: ${ae.message}"
+                    log.debug "Authentication failed: ${ae.message}"
                     authenticationFailureHandler.onAuthenticationFailure(httpServletRequest, httpServletResponse, ae)
                 }
 
             }else{
-                log.info "Username and/or password parameters are missing."
+                log.debug "Username and/or password parameters are missing."
                 if(!authentication){
-                    log.info "Setting status to ${HttpServletResponse.SC_BAD_REQUEST}"
+                    log.debug "Setting status to ${HttpServletResponse.SC_BAD_REQUEST}"
                     httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST)
                 }else{
-                    log.info "Using authentication already in security context."
+                    log.debug "Using authentication already in security context."
                 }
             }
 
