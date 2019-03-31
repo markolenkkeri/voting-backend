@@ -1,20 +1,19 @@
 package voting.backend.grails3
 
+import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
-import grails.converters.*
 import groovy.util.logging.Slf4j
 
 @Slf4j
 class VotingController {
-	static responseFormats = ['json']
+    static responseFormats = ['json']
 
     def votingService
 
     @Secured('ROLE_VOTER')
     def vote(VoteCommand cmd) {
-        if(!cmd?.validate())
-        {
-            def returnValues = ["success":false, message:"Command object validation failed", "errors":cmd.errors.allErrors]
+        if (!cmd?.validate()) {
+            def returnValues = ["success": false, message: "Command object validation failed", "errors": cmd.errors.allErrors]
             render returnValues as JSON
             return
         }

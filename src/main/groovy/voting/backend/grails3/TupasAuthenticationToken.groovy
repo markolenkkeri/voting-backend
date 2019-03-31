@@ -3,7 +3,7 @@ package voting.backend.grails3
 import org.springframework.security.authentication.AbstractAuthenticationToken
 import org.springframework.security.core.GrantedAuthority
 
-class TupasAuthenticationToken extends AbstractAuthenticationToken{
+class TupasAuthenticationToken extends AbstractAuthenticationToken {
 
     private Object principal
     private Object credentials

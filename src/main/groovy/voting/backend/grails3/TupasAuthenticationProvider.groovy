@@ -1,7 +1,6 @@
 package voting.backend.grails3
 
 import groovy.util.logging.Slf4j
-import org.apache.commons.codec.digest.DigestUtils
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.core.Authentication

@@ -1,7 +1,6 @@
 package voting.backend.grails3
 
 import grails.converters.JSON
-import org.apache.commons.codec.digest.DigestUtils
 import org.springframework.beans.factory.annotation.Value
 
 class TupasController {
@@ -12,7 +11,7 @@ class TupasController {
     static responseFormats = ['json']
 
     def index() {
-        String currentStamp = new Date().format("yyyyMMddhhmmss")+"000000"
+        String currentStamp = new Date().format("yyyyMMddhhmmss") + "000000"
         def returnValues = ['loginUrl'      : 'http://localhost:3000',
                             'loginVariables': ['A01Y_ACTION_ID': '701',
                                                'A01Y_VERS'     : '0002',
@@ -30,8 +29,7 @@ class TupasController {
         render returnValues as JSON
     }
 
-    private static String calculateMac(String stamp, String tupasKey)
-    {
+    private static String calculateMac(String stamp, String tupasKey) {
         def content = ['701', '0002', '999', 'FI', stamp, '12', 'http://localhost/tupasreturn', 'http://localhost/tupascancel', 'http://localhost/tupasreject', '0001', '03', tupasKey]
         return TupasUtil.calculateSha256(content)
     }

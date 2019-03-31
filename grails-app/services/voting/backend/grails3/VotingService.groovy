@@ -11,23 +11,21 @@ class VotingService {
     def vote(VoteCommand cmd) {
         log.info("Starting vote operation")
         def user = springSecurityService.principal
-        if(Vote.findAllByVoterSsn(user.password))
-        {
+        if (Vote.findAllByVoterSsn(user?.password)) {
             log.warn("Voter has already voted, failing vote operation.")
-            def returnValues = ["success":false, message:"This voter has already voted"]
+            def returnValues = ["success": false, message: "This voter has already voted"]
             return returnValues
         }
 
-        Vote vote = [candidate:Candidate.read(cmd.candidateId), voterSsn:user.password]
-        if(!vote.validate())
-        {
+        Vote vote = [candidate: Candidate.read(cmd.candidateId), voterSsn: user?.password]
+        if (!vote.validate()) {
             log.warn("Failed to validate vote-object, failing vote operation.")
-            def returnValues = ["success":false, message:"Saving the vote object failed"]
+            def returnValues = ["success": false, message: "Saving the vote object failed"]
             return returnValues
         }
 
-        vote.save([flush:true])
-        def returnValues = ["success":true, message:"Vote accepted", vote:vote]
+        vote.save([flush: true])
+        def returnValues = ["success": true, message: "Vote accepted", vote: vote]
         log.info("Voting succeeded.")
         return returnValues
     }

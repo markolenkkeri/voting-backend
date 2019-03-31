@@ -34,7 +34,7 @@ class TupasCredentialsExtractor {
             log.debug "Extracted credentials from JSON payload."
 
             new TupasAuthenticationToken(ROLES, B02K_VERS, B02K_TIMESTMP, B02K_IDNBR, B02K_STAMP, B02K_CUSTNAME, B02K_KEYVERS,
-            B02K_ALG, B02K_CUSTID, B02K_CUSTTYPE, B02K_USERID, B02K_USERNAME, B02K_MAC)
+                    B02K_ALG, B02K_CUSTID, B02K_CUSTTYPE, B02K_USERID, B02K_USERNAME, B02K_MAC)
         } else {
             log.error "No JSON body sent in the request"
             return null

@@ -1,21 +1,21 @@
 package voting.backend.grails3
 
 import grails.plugin.springsecurity.SpringSecurityService
+import grails.testing.gorm.DataTest
 import grails.testing.services.ServiceUnitTest
 import spock.lang.Specification
-import spock.lang.Subject
 
-class VotingServiceSpec extends Specification implements ServiceUnitTest<VotingService>{
-
-    @Subject
-    def votingService
+class VotingServiceSpec extends Specification implements ServiceUnitTest<VotingService>, DataTest {
 
     def mockSecurity
 
+    void setupSpec() {
+        mockDomains Vote, Candidate
+    }
+
     def setup() {
-        votingService = new VotingService()
         mockSecurity = Mock(SpringSecurityService)
-        votingService.springSecurityService = mockSecurity
+        service.springSecurityService = mockSecurity
     }
 
     def cleanup() {
@@ -23,15 +23,42 @@ class VotingServiceSpec extends Specification implements ServiceUnitTest<VotingS
 
     void "Voting with correct authentication works correctly"() {
         given: "An authenticated user"
-            mockSecurity.principal >> null
+        mockSecurity.principal >> [password: "password"]
+        new Candidate(id: 1, name: "Ville Vihreä", party: "Vihreät", picture: "ville.jpg", profession: "Viherkasviasiantuntija", residency: "Turku", age: 38, education: "Yes").save()
         when: "The voting method is called"
-            def returnValue = votingService.vote(new VoteCommand())
+        def returnValue = service.vote(new VoteCommand(candidateId: 1))
         then: "An OK message is returned"
-            returnValue.success==true
+        returnValue.success
     }
 
-    void "test something"() {
-        expect:"fix me"
-            true == false
+    void "Voting with incorrect authentication gives an error"() {
+        given: "An authenticated user"
+        mockSecurity.principal >> null
+        new Candidate(id: 1, name: "Ville Vihreä", party: "Vihreät", picture: "ville.jpg", profession: "Viherkasviasiantuntija", residency: "Turku", age: 38, education: "Yes").save()
+        when: "The voting method is called"
+        def returnValue = service.vote(new VoteCommand(candidateId: 1))
+        then: "An OK message is returned"
+        !returnValue.success
+    }
+
+    void "Voting with incorrect candidate id gives an error"() {
+        given: "An authenticated user"
+        mockSecurity.principal >> [password: "password"]
+        new Candidate(id: 1, name: "Ville Vihreä", party: "Vihreät", picture: "ville.jpg", profession: "Viherkasviasiantuntija", residency: "Turku", age: 38, education: "Yes").save()
+        when: "The voting method is called"
+        def returnValue = service.vote(new VoteCommand(candidateId: 2))
+        then: "An OK message is returned"
+        !returnValue.success
+    }
+
+    void "Voting only works once"() {
+        given: "An authenticated user"
+        mockSecurity.principal >> [password: "password"]
+        new Candidate(id: 1, name: "Ville Vihreä", party: "Vihreät", picture: "ville.jpg", profession: "Viherkasviasiantuntija", residency: "Turku", age: 38, education: "Yes").save()
+        when: "The voting method is called"
+        service.vote(new VoteCommand(candidateId: 1))
+        def returnValue = service.vote(new VoteCommand(candidateId: 1))
+        then: "An OK message is returned"
+        !returnValue.success
     }
 }
