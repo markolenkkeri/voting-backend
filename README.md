@@ -16,6 +16,10 @@ Kloonaa projekti itsellesi:
 Mene projektin hakemistoon:
 > cd voting-backend
 
+Tee ohjeen mukaisesti salausavaimet ja aseta ne nimillä voting_key.der ja public_voting.der hakemistoon secret
+Katso kohta 10.1.3, Certificate generation for JWT
+> http://alvarosanchez.github.io/grails-spring-security-rest/latest/docs/#_json_web_token
+
 ### Linux + MacOs
 
 Muuta gradlew-tiedosto ajettavaksi, jos se ei jo ole
