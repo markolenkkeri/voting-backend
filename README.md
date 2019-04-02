@@ -2,10 +2,38 @@
 
 Tupas-autentikoinnin kautta äänestämisen mahdollistava sovellus.
 
+## Käynnistäminen
+Asenna Java JDK, mieluiten vaikka Java 8:
+> Linux: https://sdkman.io/
+> Mac: https://java.com/en/download/help/mac_install.xml
+> Windows: https://docs.oracle.com/javase/10/install/installation-jdk-and-jre-microsoft-windows-platforms.htm
+
+Avaa terminaali.
+
+Kloonaa projekti itsellesi:
+> git clone https://github.com/markolenkkeri/voting-backend.git
+
+Mene projektin hakemistoon:
+> cd voting-backend
+
+### Linux + MacOs
+
+Muuta gradlew-tiedosto ajettavaksi, jos se ei jo ole
+> chmod +x gradlew
+
+Aja gradlew avulla projekti
+> ./gradlew bootRun
+
+### Windows
+
+Aja gradlew.bat-tiedosto
+> gradlew.bat bootRun
+
 ## Käytännön käyttö:
 Alla esimerkkikutsut järjestelmän käyttämiseksi.
 Nämä olettavat, että [tupas-testbench](https://github.com/sakumikko/tupas-testbench) on paikallisesti ajossa.
 Curl-kutsut ovat bash-muodossa, ja curl-kutsujen jälkeen esitetty JSON-data on aina edeltävässä curl-kutsussa @-notaatiolla merkatun tiedoston sisällöt.
+Ensimmäiset 3 kutsua voidaan ajaa selaimessa, myös ilma tupas-testbenchiä, jolloin otetaan vain http://... -osio käskystä selaimen osoiteriville.
 
 ### Listaa ehdokkaita
 > curl -v -H "Content-type:application/json" 'http://localhost:8080/candidate/'
