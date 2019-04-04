@@ -1,11 +1,13 @@
 # Äänestysjärjestelmä, backend
 
-Tupas-autentikoinnin kautta äänestämisen mahdollistava sovellus.
+Tupas-autentikoinnin kautta äänestämisen mahdollistava sovellus. Muutamia aika isoja tietoturvareikiä tässä, vinkkinä: frameworkin puolen automaatio on välillä myös ei-niin-kiva ystävä.
 
 ## Käynnistäminen
 Asenna Java JDK, mieluiten vaikka Java 8:
 > Linux: https://sdkman.io/
+
 > Mac: https://java.com/en/download/help/mac_install.xml
+
 > Windows: https://docs.oracle.com/javase/10/install/installation-jdk-and-jre-microsoft-windows-platforms.htm
 
 Avaa terminaali.
