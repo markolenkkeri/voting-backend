@@ -95,3 +95,7 @@ Ensimmäiset 3 kutsua voidaan ajaa selaimessa, myös ilma tupas-testbenchiä, jo
 
 ### Äänestystoiminnallisuus:
 >curl -H 'Accept: application/json' -H 'Content-type:application/json' -H "Authorization: Bearer ${TOKEN}" -X POST --data @vote.json http://localhost:8080/voting/vote
+
+>{
+> "candidateId":1
+>}
