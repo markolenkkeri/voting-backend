@@ -35,9 +35,11 @@ Aja gradlew avulla projekti
 Aja gradlew.bat-tiedosto
 > gradlew.bat bootRun
 
+Jos käyttää gitbashia, syntaksi on sama kuin Linux-esimerkissä.
+
 ## Käytännön käyttö:
 Alla esimerkkikutsut järjestelmän käyttämiseksi.
-Nämä olettavat, että [tupas-testbench](https://github.com/sakumikko/tupas-testbench) on paikallisesti ajossa.
+Nämä olettavat, että [tupas-testbench](https://github.com/sakumikko/tupas-testbench) on paikallisesti ajossa. (Kloonaa repository, asenna npm jos ei ole asennettuna, aja npm install ja npm start)
 Curl-kutsut ovat bash-muodossa, ja curl-kutsujen jälkeen esitetty JSON-data on aina edeltävässä curl-kutsussa @-notaatiolla merkatun tiedoston sisällöt.
 Ensimmäiset 3 kutsua voidaan ajaa selaimessa, myös ilma tupas-testbenchiä, jolloin otetaan vain http://... -osio käskystä selaimen osoiteriville.
 
